@@ -1,0 +1,7 @@
+ <<< Combine >>> 
+Observed Limit: r < 10.4932
+Expected  2.5%: r < 4.4434
+Expected 16.0%: r < 6.0583
+Expected 50.0%: r < 8.7500
+Expected 84.0%: r < 12.8656
+Expected 97.5%: r < 18.2872

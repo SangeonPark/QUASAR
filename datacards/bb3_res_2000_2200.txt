@@ -1,0 +1,13 @@
+ <<< Combine >>> 
+>>> method used is AsymptoticLimits
+>>> random number generator seed is 123456
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 36.3389
+Expected  2.5%: r < 32.8652
+Expected 16.0%: r < 43.1718
+Expected 50.0%: r < 59.2500
+Expected 84.0%: r < 81.2141
+Expected 97.5%: r < 106.3398
+
+Done in 0.00 min (cpu), 0.00 min (real)

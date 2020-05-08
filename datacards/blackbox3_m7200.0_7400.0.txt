@@ -1,0 +1,15 @@
+# Brazil plot for Black Box with one mixed and one background
+imax 1  number of channels
+jmax 1  background
+kmax *  number of nuisance parameters (sources of systematic uncertainty)
+------------------------------
+------------------------------
+bin          signal_region
+observation  0
+------------------------------
+bin                        signal_region   signal_region
+process                    purebkg         blackbox3
+process                    1               0
+rate                       0           1.0
+------------------------------
+uncertainty        lnN     1.10            -
