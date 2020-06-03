@@ -1,0 +1,17 @@
+imax *
+jmax *
+kmax *
+---------------
+shapes * * shapes-blackbox-100-TH1.root $PROCESS $PROCESS_$SYSTEMATIC
+---------------
+bin signal_region
+observation -1
+------------------------------
+bin             signal_region       signal_region
+process         signal     purebkg
+process         0          1
+rate            -1         -1
+--------------------------------
+lumi     lnN    1.3       1.3
+scale    shape  1.0         -
+smear    shape  1.0         -
