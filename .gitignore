@@ -132,6 +132,6 @@ dmypy.json
 *.root
 
 #numpy data and h5 files
-*.npy
+#*.npy
 *.h5
 
