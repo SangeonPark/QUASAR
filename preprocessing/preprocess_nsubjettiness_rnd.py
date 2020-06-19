@@ -84,6 +84,7 @@ nsub_bp5 = ns.Nsubjettiness(beta, R, 0, 6)
 
 beta = 1.0
 nsub_b1 = ns.Nsubjettiness(beta, R, 0, 6)
+
 beta = 2.0
 nsub_b2 = ns.Nsubjettiness(beta, R, 0, 6)
 
@@ -151,6 +152,8 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 jet2_conts.extend(vec)
 
         # Get Nsubjettiness properties
+        print(jet1_conts)
+        print(jet2_conts)
         max_tau = 16
         # jet 1, beta = 0.5
         tau1_bp5 = nsub_bp5.getTau(max_tau, jet1_conts)
