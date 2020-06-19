@@ -4,7 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import h5py
 import pandas as pd
-
+import sys
+sys.path.append("/data/t3home000/spark/FastJetInstallDir/install_dir/lib/python3.6/site-packages")
+sys.path.append("/data/t3home000/spark/ForSwig/processing")
 import fastjet as fj
 import NsubjettinessWrapper as ns
 import SoftDropWrapper as sd
