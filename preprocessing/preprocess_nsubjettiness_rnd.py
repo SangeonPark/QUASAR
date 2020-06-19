@@ -61,14 +61,18 @@ column_labels.extend(['j1 n_trk', 'j1 pT1', 'j1 M_trim', 'j1 M_prun',
                       'j1 M_mmdt', 'j1 M_sdb1', 'j1 M_sdb2', 'j1 M_sdm1'])
 
 column_labels.append('Mj2')
-column_labels.extend(['j2 n_trk', 'j2 pT1', 'j2 M_trim', 'j2 M_prun',
-                      'j2 M_mmdt', 'j2 M_sdb1', 'j2 M_sdb2', 'j2 M_sdm1'])
-
 
 for i in range(15):
     column_labels.append(f'j2 tau{i+1}(b=.5)')
     column_labels.append(f'j2 tau{i+1}(b=1)')
     column_labels.append(f'j2 tau{i+1}(b=2)')
+
+
+column_labels.extend(['j2 n_trk', 'j2 pT1', 'j2 M_trim', 'j2 M_prun',
+                      'j2 M_mmdt', 'j2 M_sdb1', 'j2 M_sdb2', 'j2 M_sdm1'])
+
+
+
 
 column_labels.append('isSignal')
 
