@@ -243,6 +243,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         out_vec[i] = vec
         #print('vec', out_vec[i])
 
+    print(out_vec[:5])
     df = pd.DataFrame(out_vec, columns=column_labels)
     print(df.head)
     if (l == 0):
