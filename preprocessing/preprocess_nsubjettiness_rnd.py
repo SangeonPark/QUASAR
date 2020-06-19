@@ -239,9 +239,9 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
             vec.extend(jet_1_props)
             vec.extend([issignal])
 
-        print('vec', vec)
 
         out_vec[i] = vec
+        print('vec', out_vec[i])
 
     df = pd.DataFrame(out_vec, columns=column_labels)
     if (l == 0):
