@@ -180,7 +180,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 break
             j1_tau_list.extend([x, y, z])
 
-        print('j1list', *j1_tau_list)
+        #print('j1list', *j1_tau_list)
 
         #tau21 = tau1_b1[1] / max(eps, tau1_b1[0])
         #tau32 = tau1_b1[2] / max(eps, tau1_b1[1])
@@ -209,7 +209,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 break
             j2_tau_list.extend([x, y, z])
 
-        print('j2list',*j2_tau_list)
+        #print('j2list',*j2_tau_list)
         #tau21 = tau2_b1[1] / max(eps, tau2_b1[0])
         #tau32 = tau2_b1[2] / max(eps, tau2_b1[1])
         #tau43 = tau2_b1[3] / max(eps, tau2_b1[2])
@@ -238,6 +238,8 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
             vec.extend(jet_2_props)
             vec.extend(jet_1_props)
             vec.extend([issignal])
+
+        print('vec', vec)
 
         out_vec[i] = vec
 
