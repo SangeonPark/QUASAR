@@ -241,9 +241,10 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
 
 
         out_vec[i] = vec
-        print('vec', out_vec[i])
+        #print('vec', out_vec[i])
 
     df = pd.DataFrame(out_vec, columns=column_labels)
+    df.head
     if (l == 0):
         df.to_hdf(fout_name, "data", mode='w', format='t')
     else:
