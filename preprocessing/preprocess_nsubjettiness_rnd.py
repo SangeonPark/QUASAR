@@ -204,8 +204,8 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         mj2 = jets[1].m()
 
         j2_tau_list = []
-        for k, (x, y, z) in enumerate(zip(tau2_bp5, tau2_b1, tau2_b2)):
-            if k == 15:
+        for it, (x, y, z) in enumerate(zip(tau2_bp5, tau2_b1, tau2_b2)):
+            if it == 15:
                 break
             j2_tau_list.extend([x, y, z])
 
@@ -243,7 +243,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         out_vec[i] = vec
         #print('vec', out_vec[i])
 
-    print(out_vec[:5])
+    #print(out_vec[:5])
     df = pd.DataFrame(out_vec, columns=column_labels)
     print(df.head)
     if (l == 0):
