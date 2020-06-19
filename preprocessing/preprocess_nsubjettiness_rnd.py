@@ -152,8 +152,6 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 jet2_conts.extend(vec)
 
         # Get Nsubjettiness properties
-        print(jet1_conts)
-        print(jet2_conts)
         max_tau = 16
         # jet 1, beta = 0.5
         tau1_bp5 = nsub_bp5.getTau(max_tau, jet1_conts)
@@ -182,6 +180,8 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 break
             j1_tau_list.extend([x, y, z])
 
+        print('j1list', *j1_tau_list)
+
         #tau21 = tau1_b1[1] / max(eps, tau1_b1[0])
         #tau32 = tau1_b1[2] / max(eps, tau1_b1[1])
         #tau43 = tau1_b1[3] / max(eps, tau1_b1[2])
@@ -209,6 +209,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 break
             j2_tau_list.extend([x, y, z])
 
+        print('j2list',*j2_tau_list)
         #tau21 = tau2_b1[1] / max(eps, tau2_b1[0])
         #tau32 = tau2_b1[2] / max(eps, tau2_b1[1])
         #tau43 = tau2_b1[3] / max(eps, tau2_b1[2])
