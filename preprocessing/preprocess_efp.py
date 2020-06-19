@@ -34,7 +34,7 @@ def main():
     test_frac = 0.2
 
     # efp parameters
-    dmax = 10
+    dmax = 7
     measure = 'hadr'
     beta = 0.5
 
@@ -44,6 +44,7 @@ def main():
     test = dt2[:1000]
     test_X = [x[x[:,0] > 0] for x in test]
     X = efpset.batch_compute(test_X)
+    print(X)
     print('done')
 
 if __name__ == '__main__':
