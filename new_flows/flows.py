@@ -77,7 +77,7 @@ class Radial(nn.Module):
         self.log_alpha = nn.Parameter(torch.Tensor(1))
         self.beta = nn.Parameter(torch.Tensor(1))
 
-    def reset_parameters(dim):
+    def reset_parameters(self, dim):
         init.uniform_(self.z0, -math.sqrt(1/dim), math.sqrt(1/dim))
         init.uniform_(self.log_alpha, -math.sqrt(1/dim), math.sqrt(1/dim))
         init.uniform_(self.beta, -math.sqrt(1/dim), math.sqrt(1/dim))
@@ -113,8 +113,8 @@ class FCNN(nn.Module):
 
     def forward(self, x):
         return self.network(x)
-    
-    
+
+
 class FCNN_for_NVP(nn.Module):
     """
     Simple fully connected neural network to be used for Real NVP with lhc data.
@@ -138,7 +138,7 @@ class FCNN_for_NVP(nn.Module):
         )
 
     def forward(self, x):
-        return self.network(x)    
+        return self.network(x)
 
 class RealNVP(nn.Module):
     """
@@ -155,7 +155,7 @@ class RealNVP(nn.Module):
         self.s2 = base_network(dim // 2, dim // 2)
 
     def forward(self, x):
-        lower, upper = x[:,:self.dim // 2], x[:,self.dim // 2:]      
+        lower, upper = x[:,:self.dim // 2], x[:,self.dim // 2:]
         t1_transformed = self.t1(lower)
         s1_transformed = self.s1(lower)
         upper = t1_transformed + upper * torch.exp(s1_transformed)
@@ -185,7 +185,7 @@ class MAF(nn.Module):
 
     [Papamakarios et al. 2018]
     """
-    def __init__(self, dim, hidden_dim = 8, base_network=FCNN):
+    def __init__(self, dim, hidden_dim=8, base_network=FCNN):
         super().__init__()
         self.dim = dim
         self.layers = nn.ModuleList()
@@ -283,8 +283,8 @@ class OneByOneConv(nn.Module):
         x = z @ self.W_inv
         log_det = -torch.sum(torch.log(torch.abs(self.S)))
         return x, log_det
-    
-    
+
+
 class NSF_AR(nn.Module):
     """
     Neural spline flow, auto-regressive.
@@ -339,7 +339,7 @@ class NSF_AR(nn.Module):
                 z[:, i], W, H, D, inverse = True, tail_bound = self.B)
             log_det += ld
         return x, log_det
-    
+
 class NSF_CL(nn.Module):
     """
     Neural spline flow, coupling layer.
