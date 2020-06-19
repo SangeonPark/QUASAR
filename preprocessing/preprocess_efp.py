@@ -1,12 +1,14 @@
 from __future__ import absolute_import, division, print_function
 # standard numerical library imports
-import numpy as np
 
 # energyflow imports
 import energyflow as ef
-from energyflow.archs import PFN
+from energyflow.archs import LinearClassifier
 from energyflow.datasets import qg_jets
-from energyflow.utils import data_split, remap_pids, to_categorical
+from energyflow.utils import data_split, standardize, to_categorical
+
+
+
 import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
