@@ -175,8 +175,8 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         mj1 = jets[0].m()
 
         j1_tau_list = []
-        for i, (x, y, z) in enumerate(zip(tau1_bp5, tau1_b1, tau1_b2)):
-            if i == 15:
+        for k, (x, y, z) in enumerate(zip(tau1_bp5, tau1_b1, tau1_b2)):
+            if k == 15:
                 break
             j1_tau_list.extend([x, y, z])
 
@@ -204,8 +204,8 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         mj2 = jets[1].m()
 
         j2_tau_list = []
-        for i, (x, y, z) in enumerate(zip(tau2_bp5, tau2_b1, tau2_b2)):
-            if i == 15:
+        for k, (x, y, z) in enumerate(zip(tau2_bp5, tau2_b1, tau2_b2)):
+            if k == 15:
                 break
             j2_tau_list.extend([x, y, z])
 
