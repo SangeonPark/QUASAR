@@ -31,8 +31,8 @@ def generator(filename, chunk_size=1000, total_size=1100000):
         yield pd.read_hdf(filename, start=i * chunk_size, stop=(i + 1) * chunk_size)
 
 
-total_size = 1100000
-#total_size = 10000
+#total_size = 1100000
+total_size = 10000
 batch_size = 5000
 iters = total_size // batch_size
 fin_name = "/data/t3home000/spark/LHCOlympics/data/events_anomalydetection.h5"
