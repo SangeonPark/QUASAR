@@ -50,25 +50,25 @@ fout_name = "nsubjettiness_massratio_rnd.h5"
 
 column_labels = []
 column_labels.append('Mjj')
+column_labels.append('j1 pT')
+column_labels.append('j2 pT')
+
 column_labels.append('Mj1')
 
-for i in range(15):
-    column_labels.append(f'j1 tau{i+1}(b=.5)')
-    column_labels.append(f'j1 tau{i+1}(b=1)')
-    column_labels.append(f'j1 tau{i+1}(b=2)')
+for i in range(7):
+    column_labels.append(f'j1 tau{i+2}{i+1}')
 
-column_labels.extend(['j1 n_trk', 'j1 pT1', 'j1 M_trim', 'j1 M_prun',
+
+column_labels.extend(['j1 n_trk', 'j1 M_trim', 'j1 M_prun',
                       'j1 M_mmdt', 'j1 M_sdb1', 'j1 M_sdb2', 'j1 M_sdm1'])
 
 column_labels.append('Mj2')
 
-for i in range(15):
-    column_labels.append(f'j2 tau{i+1}(b=.5)')
-    column_labels.append(f'j2 tau{i+1}(b=1)')
-    column_labels.append(f'j2 tau{i+1}(b=2)')
+for i in range(7):
+    column_labels.append(f'j2 tau{i+2}{i+1}')
 
 
-column_labels.extend(['j2 n_trk', 'j2 pT1', 'j2 M_trim', 'j2 M_prun',
+column_labels.extend(['j2 n_trk','j2 M_trim', 'j2 M_prun',
                       'j2 M_mmdt', 'j2 M_sdb1', 'j2 M_sdb2', 'j2 M_sdm1'])
 
 
@@ -156,11 +156,11 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 jet2_conts.extend(vec)
 
         # Get Nsubjettiness properties
-        max_tau = 16
+        max_tau = 7
         # jet 1, beta = 0.5
-        tau1_bp5 = nsub_bp5.getTau(max_tau, jet1_conts)
+        #tau1_bp5 = nsub_bp5.getTau(max_tau, jet1_conts)
         # jet 2, beta = 0.5
-        tau2_bp5 = nsub_bp5.getTau(max_tau, jet2_conts)
+        #tau2_bp5 = nsub_bp5.getTau(max_tau, jet2_conts)
         # jet 1, beta = 1
         tau1_b1 = nsub_b1.getTau(max_tau, jet1_conts)
         # jet 1, beta = 2
@@ -178,18 +178,22 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         # raw jet mass of jets[0] ( jet 1 )
         mj1 = jets[0].m()
 
-        j1_tau_list = []
-        for k, (x, y, z) in enumerate(zip(tau1_bp5, tau1_b1, tau1_b2)):
-            if k == 15:
-                break
-            j1_tau_list.extend([x, y, z])
+        #j1_tau_list = []
+        #for k, (x, y, z) in enumerate(zip(tau1_bp5, tau1_b1, tau1_b2)):
+        #    if k == 15:
+        #        break
+        #    j1_tau_list.extend([x, y, z])
 
         #print('j1list', *j1_tau_list)
 
-        #tau21 = tau1_b1[1] / max(eps, tau1_b1[0])
-        #tau32 = tau1_b1[2] / max(eps, tau1_b1[1])
-        #tau43 = tau1_b1[3] / max(eps, tau1_b1[2])
-        #sqrt_t1_b2_t1_b2 = np.sqrt(tau1_b2[0]) / max(eps, tau1_b1[0])
+        tau21 = tau1_b1[1] / max(eps, tau1_b1[0])
+        tau32 = tau1_b1[2] / max(eps, tau1_b1[1])
+        tau43 = tau1_b1[3] / max(eps, tau1_b1[2])
+        tau54 = tau1_b1[4] / max(eps, tau1_b1[3])
+        tau65 = tau1_b1[5] / max(eps, tau1_b1[4])
+        tau76 = tau1_b1[6] / max(eps, tau1_b1[5])
+        tau87 = tau1_b1[7] / max(eps, tau1_b1[6])
+        sqrt_t1_b2_t1_b2 = np.sqrt(tau1_b2[0]) / max(eps, tau1_b1[0])
 
         n_trk = len(jet1_conts)
         pT1 = jets[0].perp()
@@ -201,23 +205,31 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         mass_sdb2 = sd_sdb2.result(jet1_conts)[0].m()
         mass_sdm1 = sd_sdm1.result(jet1_conts)[0].m()
 
-        jet_1_props = [mj1, *j1_tau_list, n_trk, pT1,
+        jet_1_props = [mj1, tau21, tau32, tau43, tau54, tau65, tau76, tau87, sqrt_t1_b2_t1_b2, n_trk,
                        mass_trim, mass_prun, mass_mmdt, mass_sdb1, mass_sdb2, mass_sdm1]
 
         # Second jet
         mj2 = jets[1].m()
 
-        j2_tau_list = []
-        for it, (x, y, z) in enumerate(zip(tau2_bp5, tau2_b1, tau2_b2)):
-            if it == 15:
-                break
-            j2_tau_list.extend([x, y, z])
+        #j2_tau_list = []
+        #for it, (x, y, z) in enumerate(zip(tau2_bp5, tau2_b1, tau2_b2)):
+        #    if it == 15:
+        #        break
+        #    j2_tau_list.extend([x, y, z])
 
         #print('j2list',*j2_tau_list)
         #tau21 = tau2_b1[1] / max(eps, tau2_b1[0])
         #tau32 = tau2_b1[2] / max(eps, tau2_b1[1])
         #tau43 = tau2_b1[3] / max(eps, tau2_b1[2])
         #sqrt_t1_b2_t1_b2 = np.sqrt(tau2_b2[0]) / max(eps, tau2_b1[0])
+        tau21 = tau2_b1[1] / max(eps, tau2_b1[0])
+        tau32 = tau2_b1[2] / max(eps, tau2_b1[1])
+        tau43 = tau2_b1[3] / max(eps, tau2_b1[2])
+        tau54 = tau2_b1[4] / max(eps, tau2_b1[3])
+        tau65 = tau2_b1[5] / max(eps, tau2_b1[4])
+        tau76 = tau2_b1[6] / max(eps, tau2_b1[5])
+        tau87 = tau2_b1[7] / max(eps, tau2_b1[6])
+        sqrt_t1_b2_t1_b2 = np.sqrt(tau2_b2[0]) / max(eps, tau2_b1[0])
         n_trk = len(jet2_conts)
         pT2 = jets[1].perp()
 
@@ -230,9 +242,9 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         mass_sdb2 = sd_sdb2.result(jet2_conts)[0].m()
         mass_sdm1 = sd_sdm1.result(jet2_conts)[0].m()
 
-        jet_2_props = [mj2, *j2_tau_list, n_trk, pT2,
+        jet_2_props = [mj2, tau21, tau32, tau43, tau54, tau65, tau76, tau87, sqrt_t1_b2_t1_b2, n_trk,
                        mass_trim, mass_prun, mass_mmdt, mass_sdb1, mass_sdb2, mass_sdm1]
-        vec = [mjj]
+        vec = [mjj, pT1, pT2]
 
         if mj1 > mj2:
             vec.extend(jet_1_props)
