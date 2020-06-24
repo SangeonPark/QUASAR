@@ -36,7 +36,7 @@ total_size = 10000
 batch_size = 5000
 iters = total_size // batch_size
 fin_name = "/data/t3home000/spark/LHCOlympics/data/events_anomalydetection.h5"
-fout_name = "nsubjettiness_massratio_rnd.h5"
+fout_name = "conventional_tau_rnd.h5"
 
 
 # column_labels = [
@@ -156,7 +156,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
                 jet2_conts.extend(vec)
 
         # Get Nsubjettiness properties
-        max_tau = 7
+        max_tau = 8
         # jet 1, beta = 0.5
         #tau1_bp5 = nsub_bp5.getTau(max_tau, jet1_conts)
         # jet 2, beta = 0.5
