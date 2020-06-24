@@ -74,7 +74,7 @@ column_labels.extend(['j2 n_trk','j2 M_trim', 'j2 M_prun',
 
 
 
-column_labels.append('isSignal')
+#column_labels.append('isSignal')
 
 print(column_labels)
 print(f'length of the labels {len(column_labels)}')
@@ -120,7 +120,7 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
 
     for i in range(batch_size):
         idx = l * batch_size + i
-        issignal = events_combined[idx][2100]
+        #issignal = events_combined[idx][2100]
         if (i % 10000 == 0):
             print(i)
             pass
@@ -249,11 +249,11 @@ for batch in generator(fin_name, chunk_size=batch_size, total_size=total_size):
         if mj1 > mj2:
             vec.extend(jet_1_props)
             vec.extend(jet_2_props)
-            vec.extend([issignal])
+            #vec.extend([issignal])
         else:
             vec.extend(jet_2_props)
             vec.extend(jet_1_props)
-            vec.extend([issignal])
+            #vec.extend([issignal])
 
 
         out_vec[i] = vec
