@@ -35,7 +35,7 @@ total_size = 1000000
 #total_size = 10000
 batch_size = 5000
 iters = total_size // batch_size
-fin_name = "/data/t3home000/spark/LHCOlympics/data/events_LHCO2020_BlackBox2.h5"
+fin_name = "/data/t3home000/spark/events_LHCO2020_BlackBox2.h5"
 fout_name = "conventional_tau_BB2.h5"
 
 
