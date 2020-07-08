@@ -1,0 +1,30 @@
+2020-06-28 01:46:34,425 - root - INFO - Log file is ../log/DeepSAD/mnist_test/log.txt
+2020-06-28 01:46:34,425 - root - INFO - Data path is ../data
+2020-06-28 01:46:34,425 - root - INFO - Export path is ../log/DeepSAD/mnist_test
+2020-06-28 01:46:34,425 - root - INFO - Dataset: mnist
+2020-06-28 01:46:34,425 - root - INFO - Normal class: 0
+2020-06-28 01:46:34,425 - root - INFO - Ratio of labeled normal train samples: 0.00
+2020-06-28 01:46:34,425 - root - INFO - Ratio of labeled anomalous samples: 0.01
+2020-06-28 01:46:34,425 - root - INFO - Pollution ratio of unlabeled train data: 0.10
+2020-06-28 01:46:34,426 - root - INFO - Known anomaly class: 1
+2020-06-28 01:46:34,426 - root - INFO - Network: mnist_LeNet
+2020-06-28 01:46:34,426 - root - INFO - Eta-parameter: 1.00
+2020-06-28 01:46:34,426 - root - INFO - Set seed to 1.
+2020-06-28 01:46:34,759 - root - INFO - Computation device: cuda
+2020-06-28 01:46:34,760 - root - INFO - Number of threads: 0
+2020-06-28 01:46:34,760 - root - INFO - Number of dataloader workers: 0
+2020-06-28 01:46:35,676 - root - INFO - Pretraining: True
+2020-06-28 01:46:35,677 - root - INFO - Pretraining optimizer: adam
+2020-06-28 01:46:35,677 - root - INFO - Pretraining learning rate: 0.0001
+2020-06-28 01:46:35,677 - root - INFO - Pretraining epochs: 150
+2020-06-28 01:46:35,677 - root - INFO - Pretraining learning rate scheduler milestones: ()
+2020-06-28 01:46:35,677 - root - INFO - Pretraining batch size: 128
+2020-06-28 01:46:35,677 - root - INFO - Pretraining weight decay: 0.0005
+2020-06-28 01:46:37,904 - root - INFO - Starting pretraining...
+2020-06-28 01:46:39,182 - root - INFO - | Epoch: 001/150 | Train Time: 1.278s | Train Loss: 0.285525 |
+2020-06-28 01:46:40,268 - root - INFO - | Epoch: 002/150 | Train Time: 1.086s | Train Loss: 0.210534 |
+2020-06-28 01:46:41,350 - root - INFO - | Epoch: 003/150 | Train Time: 1.082s | Train Loss: 0.167766 |
+2020-06-28 01:46:42,432 - root - INFO - | Epoch: 004/150 | Train Time: 1.082s | Train Loss: 0.138968 |
+2020-06-28 01:46:43,517 - root - INFO - | Epoch: 005/150 | Train Time: 1.084s | Train Loss: 0.118400 |
+2020-06-28 01:46:44,602 - root - INFO - | Epoch: 006/150 | Train Time: 1.085s | Train Loss: 0.103049 |
+2020-06-28 01:46:45,684 - root - INFO - | Epoch: 007/150 | Train Time: 1.081s | Train Loss: 0.091353 |
