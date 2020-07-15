@@ -16,12 +16,15 @@ def end():
             if 1 < len(rep):
                 rep = rep[0]
 
-def drawFrame(iX,iData,iFuncs,iCat):
+def drawFrame(iX,iData,iBkg,iFuncs,iCat):
     lCan   = r.TCanvas("qcd_"+iCat,"qcd_"+iCat,800,600)
     lFrame = iX.frame()
     lFrame.SetTitle("")
     lFrame.GetXaxis().SetTitle("m_{jj} (GeV)")
+    iBkg.plotOn(lFrame,r.RooFit.FillColor(r.TColor.GetColor(100, 192, 232)),r.RooFit.FillStyle(3008), r.RooFit.DrawOption("E3"), r.RooFit.LineColor(r.kBlue))
+    
     iData.plotOn(lFrame)
+    
     iColor=51
     for pFunc in iFuncs:
         pFunc.plotOn(lFrame,r.RooFit.LineColor(iColor),r.RooFit.LineStyle(iColor != 50+1))
@@ -48,7 +51,7 @@ def workspace(iOutput,iDatas,iFuncs,iCat="cat0"):
     return lW
 
 
-def fitFunc(iData,iCat,iMin=3000,iMax=6000,iStep=150):
+def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150):
     lXMin=iData.GetXaxis().GetXmin()
     lXMax=iData.GetXaxis().GetXmax()
     lNBins=iData.GetNbinsX()
@@ -65,16 +68,20 @@ def fitFunc(iData,iCat,iMin=3000,iMax=6000,iStep=150):
     lQFuncP = r.RooBernstein("tqcd_pass_"+iCat,"tqcd_pass_"+iCat,lX,r.RooArgList(lA0,lA1,lA2,lA3))#,lA5))
     lQCDP   = r.RooExtendPdf("qcd_"+iCat, "qcd"+iCat,lQFuncP,lNTot)
 
-    lMass   = r.RooRealVar("mass","mass"  ,3875,3000,6000); lMass.setConstant(r.kTRUE)
-    lSigma  = r.RooRealVar("sigma","Width of Gaussian",60,20,500); lSigma.setConstant(r.kTRUE)
+    lMass   = r.RooRealVar("mass","mass"  ,5000,3000,8000); lMass.setConstant(r.kTRUE)
+    lSigma  = r.RooRealVar("sigma","Width of Gaussian",80,10,500); lSigma.setConstant(r.kTRUE)
     lGaus   = r.RooGaussian("gauss","gauss(x,mean,sigma)",lX,lMass,lSigma)
     lNSig   = r.RooRealVar("signorm_"+iCat,"signorm_"+iCat,iData.Integral()*0.05,0,0.3*iData.Integral())
     lSig    = r.RooExtendPdf("sig_"+iCat, "sig_"+iCat,lGaus,lNSig)
     lTot    = r.RooAddPdf("model", "model", r.RooArgList(lSig, lQCDP))
+    
+    print(iData)
+    print(iBkg)
 
     lHData  = r.RooDataHist("data_obs","data_obs", r.RooArgList(lX),iData)
+    lHBkg   = r.RooDataHist("bkgestimate","bkgestimate", r.RooArgList(lX),iBkg)
     lTot.fitTo(lHData,r.RooFit.Extended(r.kTRUE))#,r.RooFit.PrintLevel(-1))
-    drawFrame(lX,lHData,[lTot,lQCDP],iCat)
+    drawFrame(lX,lHData,lHBkg,[lTot,lQCDP],iCat)
 
     lW = workspace(fOutput,[lHData],[lTot,lQCDP],iCat)
     lW.defineSet("poi","signorm_"+iCat)
@@ -114,11 +121,16 @@ def setupData(iFileName):
     lDatas=[]
     lFile = r.TFile(iFileName)
     lH    = lFile.Get("data_obs")
+    lH2   = lFile.Get("bkgestimate")
+
     lH.SetDirectory(0)
+    lH2.SetDirectory(0)
     for i1 in range(lH.GetNbinsX()+1):
         lH.SetBinError(i1,math.sqrt(lH.GetBinContent(i1)))
+        lH2.SetBinError(i1,math.sqrt(lH2.GetBinContent(i1)))
     lFile.Close()
-    return lH
+
+    return lH, lH2
 
 def sigVsMassPlot(masses,pvalues):
     lC0 = r.TCanvas("A","A",800,600)
@@ -146,10 +158,10 @@ def sigVsMassPlot(masses,pvalues):
         #lines.append(lPT)
     lC0.Update()
     lC0.Draw()
-    lC0.SaveAs("pvalue.png")
+    lC0.SaveAs("pvalue_bb2.png")
     end()
 
 if __name__ == "__main__":
-    lData        = setupData("blackbox1.root")
-    masses,pvalues=fitFunc(lData,"test",3000,6000,300)
+    lData, lBkg        = setupData("blackbox2-REFINE.root")
+    masses,pvalues=fitFunc(lData,lBkg,"bb2-REFINE",3000,6000,300)
     sigVsMassPlot(masses,pvalues)
