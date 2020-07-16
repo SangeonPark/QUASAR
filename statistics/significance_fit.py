@@ -240,12 +240,13 @@ def sigVsMassPlot(masses,pvalues,labels):
 def pvalue(iData):
     bins=[]
     data=[]
-    for i0 in range(iData.GetNbinsX()+1):
-        bins.append(iData.GetBinLowEdge(i0+1))
-        if i0 < iData.GetNbinsX():
-            data.append(iData.GetBinContent(i0+1))
-    masks       = [[bin_i-1,bin_i, bin_i+1] for bin_i in range(1,len(bins)-2)]    
-    pvalues_in = [get_p_value(data,bins,mask=mask,verbose=0,plotfile=None) for i, mask in enumerate(masks)]    
+    pData = clip(iData,3200,6500)
+    for i0 in range(pData.GetNbinsX()+1):
+        bins.append(pData.GetBinLowEdge(i0+1))
+        if i0 < pData.GetNbinsX():
+            data.append(pData.GetBinContent(i0+1))
+    masks       = [[bin_i,bin_i, bin_i] for bin_i in range(1,len(bins)-2)]    
+    pvalues_in = [get_p_value(data,bins,mask=mask,verbose=0,plotfile=None) for i, mask in enumerate(masks)]
     masses_in  = [0.5*(bins[i] + bins[i+1]) for i in range(len(bins)-1)]
     masses =  array( 'd' )
     pvalues = array( 'd' )
@@ -258,7 +259,7 @@ def pvalue(iData):
 if __name__ == "__main__":
     lData1, lBkg1        = setupData("blackbox2-REFINE.root")
     lData2, lBkg2        = setupData("blackbox2-WAIC.root")
-    iBkgTemp=False
+    iBkgTemp=True
     masses1,pvalues1=fitFunc(lData1,lBkg1,"WAIC",3500,6000,100,iBkgTemp)
     masses2,pvalues2=fitFunc(lData2,lBkg2,"bb2-REFINE",3500,6000,100,iBkgTemp)
     masses3,pvalues3=pvalue(lData1)
