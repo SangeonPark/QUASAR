@@ -130,7 +130,7 @@ dmypy.json
 
 
 # Root files that are generated from Combine Frameworks
-*.root
+# *.root
 
 #numpy data and h5 files
 *.npy
