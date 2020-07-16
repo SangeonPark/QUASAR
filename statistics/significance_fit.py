@@ -24,15 +24,9 @@ def drawFrame(iX,iData,iBkg,iFuncs,iCat):
     lFrame = iX.frame()
     lFrame.SetTitle("")
     lFrame.GetXaxis().SetTitle("m_{jj} (GeV)")
-<<<<<<< HEAD
     lFrame.GetYaxis().SetTitle("Events")
     iBkg.plotOn(lFrame,r.RooFit.FillColor(r.TColor.GetColor(100, 192, 232)),r.RooFit.FillStyle(3008), r.RooFit.DrawOption("E3"), r.RooFit.LineColor(r.kBlue))
-=======
-    iBkg.plotOn(lFrame,r.RooFit.FillColor(r.TColor.GetColor(100, 192, 232)),r.RooFit.FillStyle(3008), r.RooFit.DrawOption("E3"), r.RooFit.LineColor(r.kBlue))
-    
->>>>>>> ab6a3ccb5e9f281e3c135ca1bfd496eba31e57ef
     iData.plotOn(lFrame)
-    
     iColor=51
     lRange = len(iFuncs)
     for i0 in range(lRange):
@@ -95,7 +89,6 @@ def clip(iData,iMin,iMax):
     fHists.append(pData)
     return pData
 
-<<<<<<< HEAD
 def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150,iFixToSB=False):
     pData = clip(iData,3200,6500)
     pBkg  = clip(iBkg ,3200,6500)
@@ -103,12 +96,6 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150,iFixToSB=False):
     lXMin=pData.GetXaxis().GetXmin()
     lXMax=pData.GetXaxis().GetXmax()
     lNBins=pData.GetNbinsX()
-=======
-def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150):
-    lXMin=iData.GetXaxis().GetXmin()
-    lXMax=iData.GetXaxis().GetXmax()
-    lNBins=iData.GetNbinsX()
->>>>>>> ab6a3ccb5e9f281e3c135ca1bfd496eba31e57ef
     lX = r.RooRealVar("x","x",lXMin,lXMax)
     lX.setBins(lNBins)
     lNTot   = r.RooRealVar("qcdnorm_"+iCat,"qcdnorm_"+iCat,pData.Integral(),0,3*pData.Integral())
@@ -126,7 +113,6 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150):
     lQFuncP  = r.RooGenericPdf("tqcd_pass_"+iCat,"tqcd_pass_"+iCat,"(1-@0/13000.)**@2*(@1/13000.)**-@2",r.RooArgList(lX,lA1,lA2))#,lA5))
     lQCDP   = r.RooExtendPdf("qcd_"+iCat, "qcd"+iCat,lQFuncP,lNTot)
 
-<<<<<<< HEAD
     lBNTot   = r.RooRealVar("bqcdnorm_"+iCat,"bqcdnorm_"+iCat,pData.Integral(),0,3*pData.Integral())
     lBA0      = r.RooRealVar   ("ba0"+"_"+iCat,"ba0"+"_"+iCat,0.00,-200.,200.)
     lBA1      = r.RooRealVar   ("ba1"+"_"+iCat,"ba1"+"_"+iCat,0.00,-200.,200.)
@@ -135,15 +121,11 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150):
     lBQCDP    = r.RooExtendPdf ("bqcd_"+iCat, "bqcd"+iCat,lBQFuncP,lBNTot)
 
     lMass   = r.RooRealVar("mass","mass"  ,5000,3000,7000); lMass.setConstant(r.kTRUE)
-=======
-    lMass   = r.RooRealVar("mass","mass"  ,5000,3000,8000); lMass.setConstant(r.kTRUE)
->>>>>>> ab6a3ccb5e9f281e3c135ca1bfd496eba31e57ef
     lSigma  = r.RooRealVar("sigma","Width of Gaussian",80,10,500); lSigma.setConstant(r.kTRUE)
     lGaus   = r.RooGaussian("gauss","gauss(x,mean,sigma)",lX,lMass,lSigma)
     lNSig   = r.RooRealVar("signorm_"+iCat,"signorm_"+iCat,0.1*pData.Integral(),0,0.3*pData.Integral())
     lSig    = r.RooExtendPdf("sig_"+iCat, "sig_"+iCat,lGaus,lNSig)
     lTot    = r.RooAddPdf("model", "model", r.RooArgList(lSig, lQCDP))
-<<<<<<< HEAD
     lHData  = r.RooDataHist("data_obs","data_obs", r.RooArgList(lX),pData)
     lHBkg   = r.RooDataHist("bkgestimate","bkgestimate", r.RooArgList(lX),pBkg)
 
@@ -153,16 +135,6 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150):
         lA1.setConstant(r.kTRUE); lA2.setConstant(r.kTRUE);
     lTot.fitTo(lHData)#,r.RooFit.Extended(r.kTRUE))
     drawFrame(lX,lHData,lHBkg,[lBQCDP,lQCDP,lTot],iCat)
-=======
-    
-    print(iData)
-    print(iBkg)
-
-    lHData  = r.RooDataHist("data_obs","data_obs", r.RooArgList(lX),iData)
-    lHBkg   = r.RooDataHist("bkgestimate","bkgestimate", r.RooArgList(lX),iBkg)
-    lTot.fitTo(lHData,r.RooFit.Extended(r.kTRUE))#,r.RooFit.PrintLevel(-1))
-    drawFrame(lX,lHData,lHBkg,[lTot,lQCDP],iCat)
->>>>>>> ab6a3ccb5e9f281e3c135ca1bfd496eba31e57ef
 
     lW = workspace(fOutput,[lHData],[lTot,lQCDP],iCat)
     lW.defineSet("poi","signorm_"+iCat)
@@ -211,11 +183,6 @@ def setupData(iFileName):
         lH.SetBinError(i1,math.sqrt(lH.GetBinContent(i1)))
         lH2.SetBinError(i1,math.sqrt(lH2.GetBinContent(i1)))
     lFile.Close()
-<<<<<<< HEAD
-=======
-
-    return lH, lH2
->>>>>>> ab6a3ccb5e9f281e3c135ca1bfd496eba31e57ef
 
     return lH, lH2
 
@@ -267,7 +234,7 @@ def sigVsMassPlot(masses,pvalues,labels):
     leg.Draw()
     lC0.Update()
     lC0.Draw()
-    lC0.SaveAs("pvalue_bb2.png")
+    lC0.SaveAs("pvalue.png")
     end()
 
 def pvalue(iData):
@@ -290,7 +257,6 @@ def pvalue(iData):
     return masses,pvalues
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     lData1, lBkg1        = setupData("blackbox2-REFINE.root")
     lData2, lBkg2        = setupData("blackbox2-WAIC.root")
     iBkgTemp=True
@@ -310,8 +276,3 @@ if __name__ == "__main__":
     masses.append(masses2)
     masses.append(masses3)
     sigVsMassPlot(masses,pvalues,labels)
-=======
-    lData, lBkg        = setupData("blackbox2-REFINE.root")
-    masses,pvalues=fitFunc(lData,lBkg,"bb2-REFINE",3000,6000,300)
-    sigVsMassPlot(masses,pvalues)
->>>>>>> ab6a3ccb5e9f281e3c135ca1bfd496eba31e57ef
