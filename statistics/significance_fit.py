@@ -88,10 +88,10 @@ def clip(iData,iMin,iMax):
         pData.SetBinContent(i0+1,iData.GetBinContent(i0+pMinBin))
     fHists.append(pData)
     return pData
-    
+
 def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150,iFixToSB=False):
-    pData = clip(iData,3200,6500)
-    pBkg  = clip(iBkg ,3200,6500)
+    pData = clip(iData,3000,6500)
+    pBkg  = clip(iBkg ,3000,6500)
     #pBkg  = iBkg#clip(iBkg ,3000,6200)
     lXMin=pData.GetXaxis().GetXmin()
     lXMax=pData.GetXaxis().GetXmax()
@@ -109,7 +109,7 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150,iFixToSB=False):
 
     lA0      = r.RooRealVar   ("a0"+"_"+iCat,"a0"+"_"+iCat,1.0,-200.,200.); lA0.setConstant(r.kTRUE)
     lA1      = r.RooRealVar   ("a1"+"_"+iCat,"a1"+"_"+iCat,1.00,-200.,200.)
-    lA2      = r.RooRealVar   ("a2"+"_"+iCat,"a2"+"_"+iCat,3.00,-200.,200.)          
+    lA2      = r.RooRealVar   ("a2"+"_"+iCat,"a2"+"_"+iCat,3.00,-200.,200.)
     lQFuncP  = r.RooGenericPdf("tqcd_pass_"+iCat,"tqcd_pass_"+iCat,"(1-@0/13000.)**@2*(@1/13000.)**-@2",r.RooArgList(lX,lA1,lA2))#,lA5))
     lQCDP   = r.RooExtendPdf("qcd_"+iCat, "qcd"+iCat,lQFuncP,lNTot)
 
@@ -117,11 +117,15 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150,iFixToSB=False):
     lBA0      = r.RooRealVar   ("ba0"+"_"+iCat,"ba0"+"_"+iCat,0.00,-200.,200.)
     lBA1      = r.RooRealVar   ("ba1"+"_"+iCat,"ba1"+"_"+iCat,0.00,-200.,200.)
     lBA2      = r.RooRealVar   ("ba2"+"_"+iCat,"ba2"+"_"+iCat,0.00,-200.,200.)          
+    #lBA0     = r.RooRealVar   ("a0"+"_"+iCat,"a0"+"_"+iCat,0.00,-1.,1.)          
+    #lBA1     = r.RooRealVar   ("a1"+"_"+iCat,"a1"+"_"+iCat,0.01,-1,1.)
+    #lBA2     = r.RooRealVar   ("a2"+"_"+iCat,"a2"+"_"+iCat,0.01,-1,1)
     lBQFuncP  = r.RooGenericPdf("btqcd_pass_"+iCat,"btqcd_pass_"+iCat,"(1-@0/13000.)**@1*(@0/13000.)**-@2",r.RooArgList(lX,lBA1,lBA2))
     lBQCDP    = r.RooExtendPdf ("bqcd_"+iCat, "bqcd"+iCat,lBQFuncP,lBNTot)
 
-    lMass   = r.RooRealVar("mass","mass"  ,5000,3000,7000); lMass.setConstant(r.kTRUE)
-    lSigma  = r.RooRealVar("sigma","Width of Gaussian",80,10,500); lSigma.setConstant(r.kTRUE)
+    lMass   = r.RooRealVar("mass","mass"  ,3800,3000,7000); #lMass.setConstant(r.kTRUE)
+    lSigma  = r.RooRealVar("sigma","Width of Gaussian",150,10,500); #lSigma.setConstant(r.kTRUE)
+
     lGaus   = r.RooGaussian("gauss","gauss(x,mean,sigma)",lX,lMass,lSigma)
     lNSig   = r.RooRealVar("signorm_"+iCat,"signorm_"+iCat,0.1*pData.Integral(),0,0.3*pData.Integral())
     lSig    = r.RooExtendPdf("sig_"+iCat, "sig_"+iCat,lGaus,lNSig)
@@ -190,7 +194,6 @@ def sigVsMassPlot(masses,pvalues,labels):
     lC0 = r.TCanvas("A","A",800,600)
     leg = r.TLegend(0.55,0.23,0.86,0.47)
     leg.SetFillColor(0)
-    
     lGraphs=[]
     sigmas=[]
     for i0 in range(len(masses)):
@@ -210,7 +213,6 @@ def sigVsMassPlot(masses,pvalues,labels):
             graph1.Draw("lp")
         lGraphs.append(graph1)
         leg.AddEntry(graph1,labels[i0],"lp")
-            
     #sigmas=[0.317,0.045,0.0027,0.0000633721,0.0000005742]
     lines=[]
     for i0 in range(5):#len(sigmas)):
@@ -230,11 +232,10 @@ def sigVsMassPlot(masses,pvalues,labels):
 
     for pGraph in lGraphs:
         pGraph.Draw("lp")
-        
     leg.Draw()
     lC0.Update()
     lC0.Draw()
-    lC0.SaveAs("pvalue.png")
+    lC0.SaveAs("pvalue_bb1.png")
     end()
 
 def pvalue(iData):
@@ -255,25 +256,25 @@ def pvalue(iData):
         masses.append(masses_in[i0])
         pvalues.append(pvalues_in[i0])
     return masses,pvalues
-    
+
+
 if __name__ == "__main__":
-    lData1, lBkg1        = setupData("blackbox2-REFINE.root")
-    lData2, lBkg2        = setupData("blackbox2-WAIC.root")
-    iBkgTemp=True
-    masses1,pvalues1=fitFunc(lData1,lBkg1,"WAIC",3500,6000,100,iBkgTemp)
-    masses2,pvalues2=fitFunc(lData2,lBkg2,"bb2-REFINE",3500,6000,100,iBkgTemp)
-    masses3,pvalues3=pvalue(lData1)
+    lData1, lBkg1        = setupData("blackbox1.root")
+    #lData2, lBkg2        = setupData("blackbox2-WAIC.root")
+    iBkgTemp=False
+    masses1,pvalues1=fitFunc(lData1,lBkg1,"BB1",3000,6000,100,iBkgTemp)
+    #masses2,pvalues2=fitFunc(lData2,lBkg2,"bb2-REFINE",3500,6000,100,iBkgTemp)
+    #masses3,pvalues3=pvalue(lData1)
     labels=[]
     masses=[]
     pvalues=[]
-    labels.append("REFINE")
-    labels.append("WAIC")
-    labels.append("Masked-REFINE")
+    labels.append("CUTFROMMAPREFINE")
+    #labels.append("WAIC")
+    #labels.append("Masked-REFINE")
     pvalues.append(pvalues1)
-    pvalues.append(pvalues2)
-    pvalues.append(pvalues3)
+    #pvalues.append(pvalues2)
+    #pvalues.append(pvalues3)
     masses.append(masses1)
-    masses.append(masses2)
-    masses.append(masses3)
+    #masses.append(masses2)
+    #masses.append(masses3)
     sigVsMassPlot(masses,pvalues,labels)
-
