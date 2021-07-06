@@ -166,7 +166,7 @@ def fitFunc(iData,iBkg,iCat,iMin=3000,iMax=6000,iStep=150,iFixToSB=False):
         lW.var("mass").setVal(mass)
         ac = r.RooStats.AsymptoticCalculator(lHData, sbmodel, bmodel)
         ac.SetOneSidedDiscovery(True)
-        ac.SetPrintLevel(-1)
+        #ac.SetPrintLevel(-1)
         asResult = ac.GetHypoTest()
         pvalue=asResult.NullPValue()
         if pvalue > 1e-8:

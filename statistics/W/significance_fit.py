@@ -236,16 +236,16 @@ def pvalue(iData):
     masses_in  = [0.5*(bins[i] + bins[i+1]) for i in range(len(bins)-1)]
     masses =  array( 'd' )
     pvalues = array( 'd' )
-    print("!!!!",len(masses_in),len(pvalues_in))
     for i0 in range(len(pvalues_in)):
         masses.append(masses_in[i0])
         pvalues.append(pvalues_in[i0])
     return masses,pvalues
 
-def loadPkl(iName,iCut1=0.3,iCut2=0.1,iNBins=60,iXMin=50,iXMax=140):
+def loadPkl(iName,iCut1=0.3,iCut2=0.1,iDelta1=0.05,iDelta2=0.05,iNBins=60,iXMin=50,iXMax=140):
     df = pd.read_pickle(iName)
     lHTot = r.TH1F("A","A",iNBins,iXMin,iXMax)
-    for m in df['Jet Mass'][np.logical_and(df['QCD Model Loss'] > iCut1,df['WQQ Model Loss'] < iCut2)]:
+    #for m in df['Jet Mass'][np.logical_and(df['QCD Model Loss'] > iCut1,df['WQQ Model Loss'] < iCut2)]:
+    for m in df['Jet Mass'][np.logical_and((np.logical_and(df['QCD Model Loss'] > iCut1,df['WQQ Model Loss'] < iCut2)),np.logical_and(df['QCD Model Loss'] < iCut1+iDelta1,df['WQQ Model Loss'] > iCut2-iDelta2))]:
         lHTot.Fill(m)
     fHists.append(lHTot)
     return lHTot
@@ -270,7 +270,7 @@ if __name__ == "__main__":
     l2DHist  = r.TH2F("A","A",lNBins,0,lScale1*lNBins,lNBins,0,lScale2*lNBins)
     for cuts1 in range(0,lNBins):
         for cuts2 in range(0,lNBins):
-            lData1 = loadPkl('jet_masses_and_losses',cuts1*lScale1,cuts2*lScale2)
+            lData1 = loadPkl('jet_masses_and_losses',cuts1*lScale1,cuts2*lScale2,lScale1,lScale2)
             sig = fitFunc(lData1,str(cuts1*lScale1)+" "+str(cuts2*lScale2),50,150,100,iBkgTemp)
             l2DHist.SetBinContent(cuts1+1,cuts2+1,sig)
             #masses1,pvalues1=fitFunc(lData1,lData1,str(cuts1*0.05)+" "+str(cuts2*0.05),50,150,100,iBkgTemp)
