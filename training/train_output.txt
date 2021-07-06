@@ -1,0 +1,23 @@
+here
+(587907, 36)
+(587907, 12)
+Epoch 1:
+	Iter [319200/50000 (3%)]	Loss: [ 5.66602364 -8.51585741] Time: 9.512 ms/batch beta:0.1
+
+Evaluation Completed (valid)!	Loss: 4.5573 Time: 2.568 s
+4.557263982863653
+Saving model!
+Epoch 2:
+	Iter [319200/50000 (3%)]	Loss: [  5.32110777 -12.75411951] Time: 9.431 ms/batch beta:0.1
+
+Evaluation Completed (valid)!	Loss: 4.0444 Time: 2.575 s
+4.0444057500281305
+Saving model!
+Epoch 3:
+	Iter [319200/50000 (3%)]	Loss: [  5.19960515 -15.27991773] Time: 9.454 ms/batch beta:0.1
+
+Evaluation Completed (valid)!	Loss: 44.8178 Time: 2.560 s
+44.81775134858631
+Not saving model! Last saved: 2
+Epoch 4:
+	Iter [319200/50000 (3%)]	Loss: [27.23000566 87.61258381] Time: 9.503 ms/batch beta:0.1
